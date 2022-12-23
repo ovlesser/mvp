@@ -12,6 +12,8 @@ import React, { type PropsWithChildren } from 'react'
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native'
 
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen'
+import { data1 } from './DataSource'
+import { Data1 } from './data'
 
 const Section: React.FC<
   PropsWithChildren<{
@@ -64,6 +66,13 @@ const App = (): JSX.Element => {
                     style={{
                         backgroundColor: isDarkMode ? Colors.black : Colors.white
                     }}>
+                    {
+                        data1.map((el: Data1, index:number) =>
+                            <Section key={index} title={el.type}>
+                                {el.props.prop1}
+                            </Section>
+                        )
+                    }
                 </View>
             </ScrollView>
         </SafeAreaView>
