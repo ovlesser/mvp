@@ -1,4 +1,5 @@
 import { Data1, Data2 } from './data'
+import { presenter } from './Presenter'
 
 export const data1: Data1[] = [
     {
@@ -25,3 +26,10 @@ export const data2: Data2[] = [
         props: { nickName: '2-2', prop1: '2-2-1', prop2: '2-2-2' }
     }
 ]
+
+let count = 0
+const dataSource = [...data1, ...data2]
+setInterval(() => {
+    presenter.setData(dataSource.slice(0, count++ % dataSource.length + 1))
+    presenter.invalidate()
+}, 1000)

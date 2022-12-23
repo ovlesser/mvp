@@ -59,8 +59,7 @@ const App = (): JSX.Element => {
     const [data, setData] = useState<ViewData[]>([])
 
     useEffect(() => {
-        const data = presenter.getData()
-        setData(data)
+        presenter.setListener(setData)
     }, [])
 
     return (
