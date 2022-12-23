@@ -8,12 +8,16 @@
  * @format
  */
 
-import React, { type PropsWithChildren } from 'react'
+import React, { type PropsWithChildren, useEffect, useState } from 'react'
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native'
 
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen'
-import { data1, data2 } from './DataSource'
-import { Data1, Data2 } from './data'
+import { presenter } from './Presenter'
+
+export interface ViewData {
+    title: string
+    description: string
+}
 
 const Section: React.FC<
   PropsWithChildren<{
@@ -52,6 +56,13 @@ const App = (): JSX.Element => {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter
     }
 
+    const [data, setData] = useState<ViewData[]>([])
+
+    useEffect(() => {
+        const data = presenter.getData()
+        setData(data)
+    }, [])
+
     return (
         <SafeAreaView style={backgroundStyle}>
             <StatusBar
@@ -67,16 +78,9 @@ const App = (): JSX.Element => {
                         backgroundColor: isDarkMode ? Colors.black : Colors.white
                     }}>
                     {
-                        data1.map((el: Data1, index:number) =>
-                            <Section key={index} title={el.type}>
-                                {el.props.prop1}
-                            </Section>
-                        )
-                    }
-                    {
-                        data2.map((el: Data2, index:number) =>
-                            <Section key={index} title={el.name}>
-                                {el.props.prop1}
+                        data.map((el, index:number) =>
+                            <Section key={index} title={el.title}>
+                                {el.description}
                             </Section>
                         )
                     }
