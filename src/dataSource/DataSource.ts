@@ -1,5 +1,5 @@
 import { Data1, Data2 } from './data'
-import { presenter } from './Presenter'
+import { homePresenter } from '../home/HomePresenter'
 
 export const data1: Data1[] = [
     {
@@ -27,9 +27,13 @@ export const data2: Data2[] = [
     }
 ]
 
-let count = 0
+// let count = 0
 const dataSource = [...data1, ...data2]
-setInterval(() => {
-    presenter.setData(dataSource.slice(0, count++ % dataSource.length + 1))
-    presenter.invalidate()
+// setInterval(() => {
+//     presenter.setData(dataSource.slice(0, count++ % dataSource.length + 1))
+//     presenter.invalidate()
+// }, 1000)
+setTimeout(() => {
+    homePresenter.setData(dataSource)
+    homePresenter.invalidate()
 }, 1000)

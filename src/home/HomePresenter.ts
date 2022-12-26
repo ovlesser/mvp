@@ -1,20 +1,9 @@
-import * as DataSource from './DataSource'
-import { ViewData } from './App'
-import { Data1, Data2, SourceData } from './data'
+import * as DataSource from '../dataSource/DataSource'
+import { ViewData } from './HomeScreen'
+import { Data1, Data2, SourceData } from '../dataSource/data'
+import { Callback, Presenter } from '../interface/Presenter'
 
-export type Callback<T> = (data: T) => void
-
-export interface Presenter<T> {
-    getData(): T | undefined
-
-    setData(data: unknown): void
-
-    invalidate(): void
-
-    setListener(callback: Callback<T>): void
-}
-
-export class PresenterImp implements Presenter<ViewData[]> {
+export class HomePresenter implements Presenter<ViewData[]> {
     data: ViewData[] = []
     callback: Callback<ViewData[]> | undefined
 
@@ -43,7 +32,7 @@ export class PresenterImp implements Presenter<ViewData[]> {
     }
 }
 
-export const presenter: Presenter<ViewData[]> & Record<keyof any, any> = {
+export const homePresenter: Presenter<ViewData[]> & Record<keyof any, any> = {
     getData(): ViewData[] {
         return this.data
     },
