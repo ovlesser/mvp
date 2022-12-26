@@ -25,6 +25,7 @@ import { homePresenter } from './HomePresenter'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 
 export interface ViewData {
+    key: string
     title: string
     description: string
 }
@@ -38,7 +39,7 @@ const Section: React.FC<
         const isDarkMode = useColorScheme() === 'dark'
         return (
             <TouchableOpacity onPress={() => {
-                navigation.navigate('Details')
+                navigation.navigate('Details', { key: data.key })
             }}>
                 <View style={styles.sectionContainer}>
                     <Text

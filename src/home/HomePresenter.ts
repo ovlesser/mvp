@@ -18,6 +18,7 @@ export class HomePresenter implements Presenter<ViewData[]> {
     setData(data: unknown): void {
         // TODO: more data manipulation
         this.data = (data as SourceData[]).map(el => ({
+            key: el.key,
             title: (el as Data1).type || (el as Data2).name,
             description: (el as Data1).props.subType || (el as Data2).props.nickName
         }))
@@ -39,6 +40,7 @@ export const homePresenter: Presenter<ViewData[]> & Record<keyof any, any> = {
     setData(data: unknown): void {
         // TODO: more data manipulation
         this.data = (data as SourceData[]).map(el => ({
+            key: el.key,
             title: (el as Data1).type || (el as Data2).name,
             description: (el as Data1).props.subType || (el as Data2).props.nickName
         }))

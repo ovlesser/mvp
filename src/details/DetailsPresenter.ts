@@ -12,6 +12,12 @@ export const detailsPresenter: Presenter<ViewData> & Record<keyof any, any> = {
     },
     setData: function (key: string): void {
         // TODO: more data manipulation
+        const sourceData = DataSource.getDataByKey(key)[0] as SourceData
+        this.data = {
+            key: sourceData.key,
+            title: (sourceData as Data1).type || (sourceData as Data2).name,
+            fields: sourceData.props
+        }
     },
     invalidate: function (): void {
         this.callback && this.data && this.callback(this.data)
