@@ -1,37 +1,43 @@
 import React, { type PropsWithChildren } from 'react'
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, useColorScheme, View } from 'react-native'
 
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen'
 import { ViewData, ViewState } from './reducer'
 import { shallowEqual, useSelector } from 'react-redux'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 
 const Section: React.FC<
   PropsWithChildren<{
-    title: string
+      data: ViewData
+      navigation: NavigationProp<any>
   }>
-> = ({ children, title }) => {
+> = ({ children, data, navigation }) => {
     const isDarkMode = useColorScheme() === 'dark'
     return (
-        <View style={styles.sectionContainer}>
-            <Text
-                style={[
-                    styles.sectionTitle,
-                    {
-                        color: isDarkMode ? Colors.white : Colors.black
-                    }
-                ]}>
-                {title}
-            </Text>
-            <Text
-                style={[
-                    styles.sectionDescription,
-                    {
-                        color: isDarkMode ? Colors.light : Colors.dark
-                    }
-                ]}>
-                {children}
-            </Text>
-        </View>
+        <TouchableOpacity onPress={() => {
+            navigation.navigate('Details')
+        }}>
+            <View style={styles.sectionContainer}>
+                <Text
+                    style={[
+                        styles.sectionTitle,
+                        {
+                            color: isDarkMode ? Colors.white : Colors.black
+                        }
+                    ]}>
+                    {data.title}
+                </Text>
+                <Text
+                    style={[
+                        styles.sectionDescription,
+                        {
+                            color: isDarkMode ? Colors.light : Colors.dark
+                        }
+                    ]}>
+                    {children}
+                </Text>
+            </View>
+        </TouchableOpacity>
     )
 }
 
@@ -42,6 +48,7 @@ const MainView = (): JSX.Element => {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter
     }
 
+    const navigation = useNavigation()
     const { viewData } = useSelector(
         (state: ViewState) => ({
             viewData: state.viewData
@@ -51,10 +58,6 @@ const MainView = (): JSX.Element => {
 
     return (
         <SafeAreaView style={backgroundStyle}>
-            <StatusBar
-                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                backgroundColor={backgroundStyle.backgroundColor}
-            />
             <ScrollView
                 contentInsetAdjustmentBehavior="automatic"
                 style={backgroundStyle}>
@@ -65,7 +68,7 @@ const MainView = (): JSX.Element => {
                     }}>
                     {
                         viewData?.map((el: ViewData, index:number) =>
-                            <Section key={index} title={el.title}>
+                            <Section key={index} data={el} navigation={navigation}>
                                 {el.description}
                             </Section>
                         )
