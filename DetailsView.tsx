@@ -1,11 +1,31 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { shallowEqual, useSelector } from 'react-redux'
+import { ViewState } from './reducer'
 
 export const DetailsView = (): JSX.Element => {
+    const { viewData } = useSelector(
+        (state: ViewState) => ({
+            viewData: state.detailsViewData
+        }),
+        shallowEqual
+    )
     return <View style={styles.container}>
         <Text style={styles.sectionTitle}>
-            Details
+            {viewData?.title}
         </Text>
+        {
+            viewData?.fields && Object.keys(viewData.fields).map(key =>
+                <View style={styles.sectionContainer} key={key}>
+                    <Text style={styles.sectionTitle}>
+                        {key}
+                    </Text>
+                    <Text style={styles.sectionDescription}>
+                        {viewData?.fields[key]}
+                    </Text>
+                </View>
+            )
+        }
     </View>
 }
 const styles = StyleSheet.create({

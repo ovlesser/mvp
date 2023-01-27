@@ -2,19 +2,22 @@ import React, { type PropsWithChildren } from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, useColorScheme, View } from 'react-native'
 
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen'
-import { ViewData, ViewState } from './reducer'
-import { shallowEqual, useSelector } from 'react-redux'
+import { MainViewData, setDetailsViewDataAction, ViewState } from './reducer'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 
 const Section: React.FC<
   PropsWithChildren<{
-      data: ViewData
+      data: MainViewData
       navigation: NavigationProp<any>
   }>
 > = ({ children, data, navigation }) => {
     const isDarkMode = useColorScheme() === 'dark'
+    const dispatch = useDispatch()
+
     return (
         <TouchableOpacity onPress={() => {
+            dispatch(setDetailsViewDataAction(data.key))
             navigation.navigate('Details')
         }}>
             <View style={styles.sectionContainer}>
@@ -51,7 +54,7 @@ const MainView = (): JSX.Element => {
     const navigation = useNavigation()
     const { viewData } = useSelector(
         (state: ViewState) => ({
-            viewData: state.viewData
+            viewData: state.mainViewData
         }),
         shallowEqual
     )
@@ -67,7 +70,7 @@ const MainView = (): JSX.Element => {
                         backgroundColor: isDarkMode ? Colors.black : Colors.white
                     }}>
                     {
-                        viewData?.map((el: ViewData, index:number) =>
+                        viewData?.map((el: MainViewData, index:number) =>
                             <Section key={index} data={el} navigation={navigation}>
                                 {el.description}
                             </Section>

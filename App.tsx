@@ -1,7 +1,7 @@
 import * as React from 'react'
 import MainView from './MainView'
 import { createStore } from 'redux'
-import { addViewDataAction, setViewDataAction, viewReducer } from './reducer'
+import { addMainViewDataAction, setMainViewDataAction, viewReducer } from './reducer'
 import { Provider } from 'react-redux'
 import { useEffect } from 'react'
 import { data1, data2 } from './DataSource'
@@ -17,10 +17,10 @@ const Stack = createNativeStackNavigator()
 const App = (): JSX.Element => {
     useEffect(() => {
         setTimeout(() => {
-            store.dispatch(setViewDataAction(data1))
+            store.dispatch(setMainViewDataAction(data1))
         }, 1000)
         setTimeout(() => {
-            store.dispatch(addViewDataAction(data2))
+            store.dispatch(addMainViewDataAction(data2))
         }, 5000)
     })
 
